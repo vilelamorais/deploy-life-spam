@@ -1,0 +1,16 @@
+{
+  "AWSTemplateFormatVersion" : "2010-09-09",
+  "Resources" : {
+    "myDynamoDBTable" : {
+      "Type" : "AWS::DynamoDB::Table",
+      "Properties" : {
+        "AttributeDefinitions" : [
+          { "AttributeName" : "DeployID", "AttributeType" : "S" }
+        ],
+        "KeySchema" : [ { "AttributeName" : "DeployID", "KeyType" : "HASH" } ],
+        "ProvisionedThroughput" : { "ReadCapacityUnits" : "5", "WriteCapacityUnits" : "5" },
+        "TableName" : "deploy-time-spam"
+      }
+    }
+  }
+}
