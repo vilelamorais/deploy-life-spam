@@ -44,12 +44,6 @@ Usei alguns treinamentos da Udemy como referência, mas como havia dito, a curva
 
 Não entendi como criar uma solução para extrair as informações para excel.
 
-###### API Gateway
-
-Disponibilizado os arquivos [API.json](APIGateway_files/API.json), [API+AWS.json](APIGateway_files/API+AWS.json) e [mappings.json](APIGateway_files/mappings.json) para criação da API.
-
-* Atividades:
-
 ###### DynamoDB
 
 * Criar uma nova tabela usando o arquivo para cloudformation [DynamoDB-TB_deploy-lifetime-spam.json](DynamoDB/DynamoDB-TB_deploy-lifetime-spam.json).
@@ -76,6 +70,13 @@ Disponibilizado os arquivos [API.json](APIGateway_files/API.json), [API+AWS.json
 * Criar uma função Lambda em python 2.7 para obter dados da tabela:
   - A função deve utilizar a role criada para permitir a pesquisa de dados na tabela.
   - usar o código [getpost.py](Lambda_function/getpost.py) para a função.
+
+###### API Gateway
+
+Disponibilizado os arquivos [API.json](APIGateway_files/API.json), [API+AWS.json](APIGateway_files/API+AWS.json) e [mappings.json](APIGateway_files/mappings.json) para criação da API.
+
+* Data Model: definição dos modelos de entrada e saída para os metodos GET [DeployGetData.json](APIGateway_files/DeployGetData.json) e POST [DeployStoreData.json](APIGateway_files/DeployStoreData.json)
+  - Para a função GET foi definido uma string para o parametro de query do Method Request (postId) permitindo enviar o tipo de query que se deseja realizar.
 
 ###### Bucket
 
