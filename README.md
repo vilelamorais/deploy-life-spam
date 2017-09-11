@@ -28,3 +28,71 @@ Sua aplicação deverá persistir todos os dados recebidos e o horário que a ch
 Os dados devem ser salvos da maneira e no formato que preferir, de forma que não agregue complexidade desnecessária na sua solução ou que o impeça de completar sua tarefa, porém é importante que nenhum dado seja perdido.
 
 Embora não faça parte do desafio recuperar ou retornar os dados recebidos é importante que os dados sejam salvos de forma que a recuperação ou o export destes dados para uma planilha seja simples e rápido.
+
+
+# Resolução
+
+## Considerações
+
+Como não conseguiria aprender e executar a tempo como criar e orquestar conteiners (docker) a tempo da entrega a única forma que consegui preparar foi por meio de uma API com serviços serverless (API Gateway com funções Lambda).
+
+Também não consegui preparar de forma correta todo o cloudformation para a criação do ambiente. Portanto, dividi as etapas conforme abaixo.
+
+A forma abaixo foi como consegui documentar a medida que desenvolvia o projeto.
+
+Usei alguns treinamentos da Udemy como referência, mas como havia dito, a curva de aprendizado pra mim é muito grande, ainda não sei por onde começar esse desenvolvimento.
+
+Não entendi como criar uma solução para extrair as informações para excel.
+
+###### DynamoDB
+
+* Criar uma nova tabela usando o arquivo para cloudformation [DynamoDB-TB_deploy-lifetime-spam.json](DynamoDB/DynamoDB-TB_deploy-lifetime-spam.json).
+
+###### IAM
+
+* Para a função Lambda de gravação:
+  -  Criar uma policy para permitir somente gravação (PutItem) na tabela criada para a função Lambda associando ao ARN da tabela criada \([deploy-store-data-pl.json](IAM/deploy-store-data-pl.json)\).
+  - Criação de uma role para permitir a função lambda a execução de pesquisas na tabela criada no DynamoDB (deploy-store-data-role).
+  - Atachar a policy AWSLambdaBasicExecutionRole a role criada para permitir a função lambda criar e gerenciar seus logs.
+
+* Para a função Lambda de pesquisa:
+  -  Criar uma policy para permitir somente leitura (GetItem e Scan) na tabela criada para a função Lambda associando ao ARN da tabela criada \([deploy-get-data-pl.json](IAM/deploy-store-data-pl.json)\).
+  - Criação de uma role para permitir a função lambda a execução de pesquisas na tabela criada no DynamoDB (deploy-get-data-role).
+  - Atachar a policy AWSLambdaBasicExecutionRole a role criada para permitir a função lambda criar e gerenciar seus logs.
+
+###### Lambda
+
+* Criar uma função Lambda em python 2.7 para inserir dados na tabela:
+  - A função deve utilizar a role criada para permitir a gravação de dados na tabela.
+  - usar o código [newpost.py](Lambda_function/newpost.py) para a função.
+  - Usa a chave DB\_TABLE\_NAME com valor igual ao nome da tabela (deploy-life-spam) 
+
+* Criar uma função Lambda em python 2.7 para obter dados da tabela:
+  - A função deve utilizar a role criada para permitir a pesquisa de dados na tabela.
+  - usar o código [getpost.py](Lambda_function/getpost.py) para a função.
+
+###### API Gateway
+
+Disponibilizado os arquivos [API.json](APIGateway_files/API.json), [API+AWS.json](APIGateway_files/API+AWS.json) e [mappings.json](APIGateway_files/mappings.json) para criação da API.
+
+* Data Model: definição dos modelos de entrada e saída para os metodos GET [DeployGetData.json](APIGateway_files/DeployGetData.json) e POST [DeployStoreData.json](APIGateway_files/DeployStoreData.json)
+  - Para a função GET foi definido uma string para o parametro de query do Method Request (postId) permitindo enviar o tipo de query que se deseja realizar.
+
+###### Bucket
+
+* Criação de um bucket para o conteúdo estático.
+* O Bucket deve estar configurado para hospedar conteúdo estático.
+* O Bucket deve conter a policy do documeto [bucketpolicypermissions.json](StaticS3_Site/bucketpolicypermissions.json).
+* Upload dos arquivos [index.html](StaticS3_Site/index.html), [scripts.js](StaticS3_Site/scripts.js) e [styles.css](StaticS3_Site/styles.css) no bucket.
+
+###### Site estático
+
+Realizar o upload dos arquivos para o bucket criado.
+
+* Index.html para apresentação da página
+* style.scc para definição do estilo da página
+* script.js contendo a função de pesquisa das informações cadastradas
+
+###### Requisição http
+
+* Foi disponibilizado o arquivo [requestScript.js](RequestScript/requestScript.js) para realizar a requisição http para inclusão do registro na tabela

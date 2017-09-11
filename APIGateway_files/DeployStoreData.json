@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "DeployStoreData",
+  "type": "object",
+  "properties": {
+    "nomeComponente": {"type": "string"},
+    "numeroVersao": {"type": "string"},
+    "nomeResponsavel": {"type": "string"},
+    "statusDeploy": {"type": "string"}
+  },
+  "required": ["nomeComponente", "numeroVersao", "nomeResponsavel", "statusDeploy"]
+}
