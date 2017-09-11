@@ -81,6 +81,8 @@ Disponibilizado os arquivos [API.json](APIGateway_files/API.json), [API+AWS.json
 ###### Bucket
 
 * Criação de um bucket para o conteúdo estático.
+* O Bucket deve estar configurado para hospedar conteúdo estático.
+* O Bucket deve conter a policy do documeto [bucketpolicypermissions.json](StaticS3_Site/bucketpolicypermissions.json).
 * Upload dos arquivos [index.html](StaticS3_Site/index.html), [scripts.js](StaticS3_Site/scripts.js) e [styles.css](StaticS3_Site/styles.css) no bucket.
 
 ###### Site estático

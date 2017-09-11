@@ -1,4 +1,4 @@
-var API_ENDPOINT = "YOUR-API-GATEWAY-HERE"
+var API_ENDPOINT = "https://f0muoa6aue.execute-api.us-east-1.amazonaws.com/DL_DEV01/siterequest"
 
 document.getElementById("searchButton").onclick = function(){
 
@@ -13,18 +13,13 @@ document.getElementById("searchButton").onclick = function(){
 
 	        jQuery.each(response, function(i,data) {
 
-						var player = "<audio controls><source src='" + data['url'] + "' type='audio/mpeg'></audio>"
-
-						if (typeof data['url'] === "undefined") {
-	    				var player = ""
-						}
-
 						$("#posts").append("<tr> \
-								<td>" + data['id'] + "</td> \
-								<td>" + data['voice'] + "</td> \
-								<td>" + data['text'] + "</td> \
-								<td>" + data['status'] + "</td> \
-								<td>" + player + "</td> \
+								<td>" + data['DeployID'] + "</td> \
+								<td>" + data['nomeComponente'] + "</td> \
+								<td>" + data['numeroVersao'] + "</td> \
+								<td>" + data['nomeResponsavel'] + "</td> \
+								<td>" + data['statusDeploy'] + "</td> \
+								<td>" + data['dataDeploy'] + "</td> \
 								</tr>");
 	        });
 				},
@@ -32,9 +27,4 @@ document.getElementById("searchButton").onclick = function(){
 						alert("error");
 				}
 		});
-}
-
-document.getElementById("postText").onkeyup = function(){
-	var length = $(postText).val().length;
-	document.getElementById("charCounter").textContent="Characters: " + length;
 }
