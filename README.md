@@ -46,7 +46,9 @@ Não entendi como criar uma solução para extrair as informações para excel.
 
 ###### API Gateway
 
-Disponibilizado o arquivo []() para criação da API.
+Disponibilizado os arquivos [API.json](APIGateway_files/API.json), [API+AWS.json](APIGateway_files/API+AWS.json) e [mappings.json](APIGateway_files/mappings.json) para criação da API.
+
+* Atividades:
 
 ###### DynamoDB
 
@@ -55,13 +57,13 @@ Disponibilizado o arquivo []() para criação da API.
 ###### IAM
 
 * Para a função Lambda de gravação:
-  -  Criar uma policy para permitir somente gravação (PutItem) na tabela criada para a função Lambda associando a policy ao ARN da tabela criada \([getpost_lambda_role.json](IAM/getpost_lambda_role.json)\).
-  - Criação de uma role para permitir a função lambda a execução de pesquisas na tabela criada no DynamoDB.
+  -  Criar uma policy para permitir somente gravação (PutItem) na tabela criada para a função Lambda associando ao ARN da tabela criada \([deploy-store-data-pl.json](IAM/deploy-store-data-pl.json)\).
+  - Criação de uma role para permitir a função lambda a execução de pesquisas na tabela criada no DynamoDB (deploy-store-data-role).
   - Atachar a policy AWSLambdaBasicExecutionRole a role criada para permitir a função lambda criar e gerenciar seus logs.
 
 * Para a função Lambda de pesquisa:
-  -  Criar uma policy para permitir somente leitura (GetItem e Scan) na tabela criada para a função Lambda associando a policy ao ARN da tabela criada \([getpost_lambda_role.json](IAM/getpost_lambda_role.json)\).
-  - Criação de uma role para permitir a função lambda a execução de pesquisas na tabela criada no DynamoDB.
+  -  Criar uma policy para permitir somente leitura (GetItem e Scan) na tabela criada para a função Lambda associando ao ARN da tabela criada \([deploy-get-data-pl.json](IAM/deploy-store-data-pl.json)\).
+  - Criação de uma role para permitir a função lambda a execução de pesquisas na tabela criada no DynamoDB (deploy-get-data-role).
   - Atachar a policy AWSLambdaBasicExecutionRole a role criada para permitir a função lambda criar e gerenciar seus logs.
 
 ###### Lambda
@@ -69,6 +71,7 @@ Disponibilizado o arquivo []() para criação da API.
 * Criar uma função Lambda em python 2.7 para inserir dados na tabela:
   - A função deve utilizar a role criada para permitir a gravação de dados na tabela.
   - usar o código [newpost.py](Lambda_function/newpost.py) para a função.
+  - Usa a chave DB\_TABLE\_NAME com valor igual ao nome da tabela (deploy-life-spam) 
 
 * Criar uma função Lambda em python 2.7 para obter dados da tabela:
   - A função deve utilizar a role criada para permitir a pesquisa de dados na tabela.
