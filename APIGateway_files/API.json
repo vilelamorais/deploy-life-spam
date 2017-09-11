@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "2017-09-11T01:54:45Z",
+    "version": "2017-09-11T03:22:58Z",
     "title": "deploy-life-spam"
   },
   "host": "f0muoa6aue.execute-api.us-east-1.amazonaws.com",
@@ -12,9 +12,6 @@
   "paths": {
     "/deployregistre": {
       "post": {
-        "consumes": [
-          "application/json"
-        ],
         "produces": [
           "application/json"
         ],
@@ -23,6 +20,11 @@
             "description": "200 response",
             "schema": {
               "$ref": "#/definitions/Empty"
+            },
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "type": "string"
+              }
             }
           }
         }
@@ -57,9 +59,6 @@
     },
     "/siterequest": {
       "get": {
-        "consumes": [
-          "application/json"
-        ],
         "produces": [
           "application/json"
         ],
@@ -68,6 +67,11 @@
             "description": "200 response",
             "schema": {
               "$ref": "#/definitions/Empty"
+            },
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "type": "string"
+              }
             }
           }
         }
