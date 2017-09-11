@@ -1,34 +1,31 @@
 import boto3
 import os
 import uuid
+import datetime
+
+now = datetime.datetime.now()
 
 def lambda_handler(event, context):
     
-    recordId = str(uuid.uuid4())
-    voice = event["voice"]
-    text = event["text"]
+    recordId        = str(uuid.uuid4())
+    nomeComponente  = event["componente"]
+    numeroVersao    = event["versao"]
+    nomeResponsavel = event["responsavel"]
+    statusDeploy    = event["status"]
+    dadaDeploy      = ["data"]
 
-    print('Generating new DynamoDB record, with ID: ' + recordId)
-    print('Input Text: ' + text)
-    print('Selected voice: ' + voice)
-    
-    #Creating new record in DynamoDB table
+    # Inserindo um novo registro na tabela do DynamoDB
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table(os.environ['DB_TABLE_NAME'])
     table.put_item(
         Item={
-            'id' : recordId,
-            'text' : text,
-            'voice' : voice,
-            'status' : 'PROCESSING'
+            'id'          : recordId,
+            'componente'  : nomeComponente,
+            'versao'      : numeroVersao,
+            'responsavel' : nomeResponsavel,
+            'status'      : statusDeploy,
+            'data'        : now.isoformat()
         }
     )
     
-    #Sending notification about new post to SNS
-    client = boto3.client('sns')
-    client.publish(
-        TopicArn = os.environ['SNS_TOPIC'],
-        Message = recordId
-    )
-    
-    return recordId
+return recordId

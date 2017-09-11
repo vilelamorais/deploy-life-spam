@@ -13,7 +13,7 @@ def lambda_handler(event, context):
         items = table.scan()
     else:
         items = table.query(
-            KeyConditionExpression=Key('id').eq(postId)
+            KeyConditionExpression=Key('DeployID').eq(postId)
         )
     
     return items["Items"]
